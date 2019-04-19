@@ -1,0 +1,23 @@
+server:
+  port: 8087
+spring:
+  jpa:
+      generate-ddl: true
+      hibernate:
+        naming:
+          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: update
+      show-sql: false
+  datasource:
+      driver-class-name: net.sf.log4jdbc.DriverSpy
+      initialize: false
+      schema:
+      - classpath:/sql/view_init.sql
+      - classpath:/sql/procedure_init.sql
+      #        url: jdbc:log4jdbc:mysql://120.78.82.118:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false
+      url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
+      username: nwarcDev
+      password: nwarc@Dev123
