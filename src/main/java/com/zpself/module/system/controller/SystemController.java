@@ -78,6 +78,9 @@ public class SystemController extends BaseController {
             return ResultObject.error("参数错误");//getValidErrorMsg(br)
         }
         user.setPassWord(MD.md5(initPassword+user.getUserName()));
+
+        //User findByUserName = userService.findByUserName(user.getUserName());
+
         User findByUserName = userService.findOne(1L);
         if(findByUserName!=null) {
             return ResultObject.error("账号已存在！");
