@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @EnableScheduling
 @EnableAsync
-public class SpringrabbitmgJpaApplication {
+public class SpringDataJpaApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringrabbitmgJpaApplication.class, args);
+        SpringApplication.run(SpringDataJpaApplication.class, args);
     }
   @GetMapping("/hello")
     public String hello(){
-        return "hello萨达萨达撒  ";
+        return "hello萨达萨达撒   ";
     }
 
 }

@@ -1,23 +1,54 @@
 server:
   port: 8087
 spring:
+  profiles:
+    active: developmentformysql
   jpa:
       generate-ddl: true
       hibernate:
         naming:
-          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       properties:
         hibernate:
           hbm2ddl:
-            auto: update
+            auto: none
       show-sql: false
+
+
+---
+spring:
+  profiles: developmentformysql
+
   datasource:
-      driver-class-name: net.sf.log4jdbc.DriverSpy
-      initialize: false
-      schema:
-      - classpath:/sql/view_init.sql
-      - classpath:/sql/procedure_init.sql
-      #        url: jdbc:log4jdbc:mysql://120.78.82.118:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false
-      url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
-      username: nwarcDev
-      password: nwarc@Dev123
+    multitenancy:
+      dvdrental:
+        data-sources-props:
+        -
+          tenantId: default
+          name: 默认
+          url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
+          username: nwarcDev
+          password: nwarc@Dev123
+          driverClassName: net.sf.log4jdbc.DriverSpy
+        -
+          tenantId: 510000
+          name: 广州
+          url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc_01?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
+          username: nwarcDev
+          password: nwarc@Dev123
+          driverClassName: net.sf.log4jdbc.DriverSpy
+
+
+---
+spring:
+  profiles: SingletonDataSource
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    initialize: false
+    schema:
+    - classpath:/sql/view_init.sql
+    - classpath:/sql/procedure_init.sql
+    #        url: jdbc:log4jdbc:mysql://120.78.82.118:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
+    username: nwarcDev
+    password: nwarc@Dev123

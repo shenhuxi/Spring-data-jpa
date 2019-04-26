@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sys")
@@ -73,13 +78,32 @@ public class SystemController extends BaseController {
             return ResultObject.error("参数错误");//getValidErrorMsg(br)
         }
         user.setPassWord(MD.md5(initPassword+user.getUserName()));
-        User findByUserName = userService.findByUserName(user.getUserName());
+        User findByUserName = userService.findOne(1L);
         if(findByUserName!=null) {
             return ResultObject.error("账号已存在！");
         }
         User saveUser = userService.save(user);
         return ResultObject.ok(saveUser);
     }
-
+    @PostMapping("list")
+    @ApiOperation( value="用户列表基本信息管理", notes="用户列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "EQ_account", value = "账号", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "LIKE_name", value = "姓名", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "EQ_delFlag", value = "用户是否有效", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "EQ_role", value = "角色", required = false, paramType = "query")})
+    public ResultObject<?> queryListUser(@Valid @RequestBody HashMap<String,Object> map){
+        Map<String, Object> paramsMap = getParameterMap();
+        paramsMap.putAll(map);
+        paramsMap.put("sort", "id");
+        paramsMap.put("sortType", "DESC");
+        PageRequest pageRequest = buildPageRequest(paramsMap);
+        //delFlag 删除标志(0-正常，1-删除)
+        if(paramsMap.get("EQ_delFlag")==null ||"".equals(paramsMap.get("EQ_delFlag"))) {
+            paramsMap.put("EQ_delFlag", 0);
+        }
+        List<User> userAll = userService.findAll(new HashMap<>());
+        return ResultObject.ok(userAll);
+    }
     
 }
