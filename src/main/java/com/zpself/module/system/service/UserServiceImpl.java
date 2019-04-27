@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User,Long> implements UserService {
-   @Autowired
-   UserRepository userRepository;
 
+    @Autowired
+    UserRepository userRepository;
     @Override
     public BaseRepository<User, Long> getCommonRepository() {
         return userRepository;
@@ -19,6 +19,6 @@ public class UserServiceImpl extends BaseServiceImpl<User,Long> implements UserS
 
     @Override
     public User findByUserName(String userName) {
-        return null;//userRepository.findByUserName(userName);
+        return userRepository.findByUserName(userName);
     }
 }
