@@ -3,21 +3,21 @@ server:
 spring:
   profiles:
     active: developmentformysql
-  jpa:
-      generate-ddl: true
-      hibernate:
-        naming:
-          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-      properties:
-        hibernate:
-          hbm2ddl:
-            auto: none
-      show-sql: false
-
 
 ---
 spring:
   profiles: developmentformysql
+  jpa:
+    properties:
+      generate-ddl: true
+      hibernate:
+        #naming:
+          #physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        #physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        hbm2ddl:
+          auto: none
+    show-sql: false
 
   datasource:
     multitenancy:
