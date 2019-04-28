@@ -29,16 +29,17 @@ public class User extends BaseEntity {
     public static final String INITPASSWORD = "666666";
     private static final long serialVersionUID = -1703630040908311405L;
     @NotNull
-    @Column(unique=true)
+    @Column(unique=true,name= "user_Name")
     @ApiModelProperty("登陆名 4A账号")
     private String userName;
 
     @ApiModelProperty("密码")
+    @Column(name= "pass_Word")
     private String passWord;
 
     @NotNull
     @ApiModelProperty("用户状态:0-停用,1-启用,2-注销")
-    @Column(columnDefinition="int default 0",nullable=false)
+    @Column(name= "user_State",columnDefinition="int default 0",nullable=false)
     private Integer userState = 1;
 
     @ApiModelProperty("锁定状态:0-no,1-yes")
@@ -53,9 +54,11 @@ public class User extends BaseEntity {
     private String email;
 
     @ApiModelProperty("头像")
+    @Column(name= "heard_Img")
     private String heardImg;
 
     @ApiModelProperty("最后登录时间")
+    @Column(name= "last_Login_Time")
     private Date lastLoginTime;
 
 
@@ -137,6 +140,7 @@ public class User extends BaseEntity {
     }
 
     @ApiModelProperty("身份证")
+    @Column(name= "id_Card")
     private String idCard;
 
 

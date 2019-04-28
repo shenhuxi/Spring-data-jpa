@@ -81,7 +81,7 @@ public class SystemController extends BaseController {
 
         //User findByUserName = userService.findByUserName(user.getUserName());
 
-        User findByUserName = userService.findOne(1L);
+        User findByUserName = userService.findOne(0L);
         if(findByUserName!=null) {
             return ResultObject.error("账号已存在！");
         }

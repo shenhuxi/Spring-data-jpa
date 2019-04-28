@@ -31,7 +31,7 @@ public class BaseEntity extends MysqlLongIdEntity implements Serializable{
 	private Long cp;
 
 	@ApiModelProperty(value = "创建人名", allowEmptyValue=true)
-	@Column(columnDefinition = "varchar(100) comment '创建人名'")
+	@Column(name= "cp_Name",columnDefinition = "varchar(100) comment '创建人名'")
 	private String cpName;
 
 	@ApiModelProperty(value = "修改时间", allowEmptyValue=true)
@@ -45,13 +45,12 @@ public class BaseEntity extends MysqlLongIdEntity implements Serializable{
 	private Long ep;
 
 	@ApiModelProperty(value = "修改人名", allowEmptyValue=true)
-	@Column(columnDefinition = "varchar(100) comment '修改人名'")
+	@Column(name= "ep_Name",columnDefinition = "varchar(100) comment '修改人名'")
 	private String epName;
 
 	@ApiModelProperty(value = "删除标志(0-正常，1-删除)", allowEmptyValue=true)
-	@Column(columnDefinition = "int(2) default 0 comment '删除标志(0-正常，1-删除)'")
+	@Column(name= "del_Flag",columnDefinition = "int(2) default 0 comment '删除标志(0-正常，1-删除)'")
 	private int delFlag;
-
 
 	public Date getCt() {
 		return ct;
