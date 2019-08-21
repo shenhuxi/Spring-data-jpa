@@ -19,6 +19,7 @@ public class UserServiceImpl extends BaseServiceImpl<User,Long> implements UserS
 
     @Override
     public User findByUserName(String userName) {
+        new User().getUserName();
         return null;//userRepository.findByUserName(userName);
     }
 }

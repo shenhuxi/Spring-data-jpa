@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zpself.module.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -19,6 +21,8 @@ import java.util.Date;
  * 用户
  * @author shixh
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @JsonIgnoreProperties({"lockState","mistakeNums"})
 @Entity
 @ApiModel
@@ -43,11 +47,13 @@ public class User extends BaseEntity {
 
     @ApiModelProperty("锁定状态:0-no,1-yes")
     @Transient
-    private int lockState;  //0-no,1-yes  redis存储(后期换ＭＱ)
+    private int lockState;
+    //0-no,1-yes  redis存储(后期换ＭＱ)
 
     @ApiModelProperty("密码输入错误次数")
     @Transient
-    private int mistakeNums;//密码输入错误次数  redis存储(后期换ＭＱ)
+    private int mistakeNums;
+    //密码输入错误次数  redis存储(后期换ＭＱ)
 
     @ApiModelProperty("邮箱")
     private String email;
@@ -58,86 +64,7 @@ public class User extends BaseEntity {
     @ApiModelProperty("最后登录时间")
     private Date lastLoginTime;
 
-
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    public Integer getUserState() {
-        return userState;
-    }
-
-    public void setUserState(Integer userState) {
-        this.userState = userState;
-    }
-
-    public int getLockState() {
-        return lockState;
-    }
-
-    public void setLockState(int lockState) {
-        this.lockState = lockState;
-    }
-
-    public int getMistakeNums() {
-        return mistakeNums;
-    }
-
-    public void setMistakeNums(int mistakeNums) {
-        this.mistakeNums = mistakeNums;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getHeardImg() {
-        return heardImg;
-    }
-
-    public void setHeardImg(String heardImg) {
-        this.heardImg = heardImg;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
     @ApiModelProperty("身份证")
     private String idCard;
-
 
 }

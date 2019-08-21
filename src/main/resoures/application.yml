@@ -18,6 +18,6 @@ spring:
       - classpath:/sql/view_init.sql
       - classpath:/sql/procedure_init.sql
       #        url: jdbc:log4jdbc:mysql://120.78.82.118:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false
-      url: jdbc:log4jdbc:mysql://127.0.0.1:3306/nwarc?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
-      username: nwarcDev
-      password: nwarc@Dev123
+      url: jdbc:log4jdbc:mysql://127.0.0.1:3306/mydata?autoReconnect=true&useUnicode=true&allowMultiQueries=true&useSSL=false&characterEncoding=utf8
+      username: admin
+      password: admin123
