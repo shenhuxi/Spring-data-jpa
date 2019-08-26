@@ -15,23 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/sys")
-@Api(tags = "系统管理", description = "")
+@Api(tags = "系统管理", description = "系统管理的接口")
 public class SystemController extends BaseController {
-    private static String  initPassword="f883ee10adc3949ba59abbe56e057f20";//123456  前端处理的结果
-	@Autowired
-    UserService userService;
+    private final UserService userService;
 
-	@Autowired
-    public HttpServletRequest request;
-    /**
-     * 获取系统毫秒数
-     * @return
-     */
+    @Autowired
+    public SystemController(UserService userService) {
+        this.userService = userService;
+    }
+
 	@GetMapping("/getCurrentTime")
     @ApiOperation(value = "获取系统时间", notes = "获取系统毫秒数")
     public ResultObject<?> getCurrentTime() {
@@ -39,43 +35,43 @@ public class SystemController extends BaseController {
     }
 
     @GetMapping("/unAuth")
-    @ApiOperation(value = "响应无权限", notes = "")
-    public ResponseEntity unAuth() {
-        return new ResponseEntity("无权限操作", HttpStatus.FORBIDDEN);
+    @ApiOperation(value = "响应无权限")
+    public ResponseEntity<String> unAuth() {
+        return new ResponseEntity<>("无权限操作", HttpStatus.FORBIDDEN);
     }
     @GetMapping("/unLogin")
-    @ApiOperation(value = "响应未登录", notes = "")
-    public ResponseEntity unLogin() {
-        return new ResponseEntity("请重新登录", HttpStatus.UNAUTHORIZED);
+    @ApiOperation(value = "响应未登录")
+    public ResponseEntity<String> unLogin() {
+        return new ResponseEntity<>("请重新登录", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/login")
-    @ApiOperation(value = "用户登录", notes = "")
+    @ApiOperation(value = "用户登录")
     @ApiImplicitParams({ 	@ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String" ),
     						@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")})
     public ResultObject<?> login(String account,String password){
 
-        return ResultObject.ok(null);
+        return ResultObject.ok(account+password);
     }
     
     @PostMapping("/loginOut")
-    @ApiOperation(value = "用户退出登录", notes = "")
+    @ApiOperation(value = "用户退出登录")
     public ResultObject<?> loginOut(){
-    	//Subject subject = SecurityUtils.getSubject();
-    	//subject.logout();
     	return ResultObject.ok("已注销");
     }
     @PostMapping("/add")
-    @ApiOperation(value= "用户新增", notes="" )
+    @ApiOperation(value= "用户新增")
     @ApiImplicitParam(name = "user", value = "具体业务对象json", required = true, dataType="User" ,paramType = "body")
     public ResultObject<?> add(@Valid @RequestBody User user, BindingResult br){
         if (br.hasErrors()) {
-            return ResultObject.error("参数错误");//getValidErrorMsg(br)
+            //getValidErrorMsg(br)
+            return ResultObject.error("参数错误");
         }
-        user.setPassWord(MD.md5(initPassword+user.getUserName()));
-        //User findByUserName = userService.findByUserName(user.getUserName());
+        String initPassword = "f883ee10adc3949ba59abbe56e057f20";
+        user.setPassWord(MD.md5(initPassword +user.getUserName()));
+        User findByUserName1 = userService.findByUserName(user.getUserName());
         User findByUserName = userService.findOne(0L);
-        if(findByUserName!=null) {
+        if(findByUserName!=null||findByUserName1!=null) {
             return ResultObject.error("账号已存在！");
         }
         User saveUser = userService.save(user);
