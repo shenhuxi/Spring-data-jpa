@@ -145,7 +145,7 @@ public class MyCustomRepository<T, ID extends Serializable> extends SimpleJpaRep
 	 * 设置分页参数到Query对象,辅助函数.
 	 */
 	private Query setPageParameterToQuery(final Query q, final Pageable pageable) {
-		q.setFirstResult(pageable.getOffset());
+		q.setFirstResult(pageable.getPageNumber());
 		q.setMaxResults(pageable.getPageSize());
 		return q;
 	}

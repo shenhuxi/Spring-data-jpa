@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -47,8 +48,9 @@ public abstract class BaseServiceImpl<E,ID extends Serializable> implements Base
 	 */
 	@Override
 	public E findOne(ID id)  {
-		E e = getCommonRepository().findOne(id);
-		return e;
+		Optional<E> byId = getCommonRepository().findById(id);
+        E e = byId.orElseThrow(() -> new RuntimeException(id.toString()));
+        return e;
 	}
 
 	@Override
@@ -69,7 +71,8 @@ public abstract class BaseServiceImpl<E,ID extends Serializable> implements Base
 
 	@Override
 	public E update(ID id,E entity) {
-		E one = getCommonRepository().findOne(id);
+        Optional<E> byId = getCommonRepository().findById(id);
+        E one = byId.orElseThrow(() -> new RuntimeException(id.toString()));
 		BeanUtil.copyPropertiesIgnoreNull(entity,one);
 		return getCommonRepository().save(one);
 	}
@@ -82,7 +85,7 @@ public abstract class BaseServiceImpl<E,ID extends Serializable> implements Base
 	@Override
 	public void delete(ID id) {
 		try {
-			getCommonRepository().delete(id);
+			getCommonRepository().deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			//如果是ID在DB不存在,不往外抛异常 add shixh 0521
 			logger.info("如果是ID在DB不存在,不往外抛异常");
@@ -92,7 +95,7 @@ public abstract class BaseServiceImpl<E,ID extends Serializable> implements Base
 
 	@Override
 	public void delete(Collection<E> entities) {
-		getCommonRepository().delete(entities);
+		getCommonRepository().deleteAll(entities);
 	}
 
 	@Override
@@ -154,7 +157,7 @@ public abstract class BaseServiceImpl<E,ID extends Serializable> implements Base
 	@Override
 	public <K> Page<K> getPageVo(String sql, PageRequest pageable, Class<K> clazz){
 		Query query = em.createNativeQuery(sql);
-		query.setFirstResult(pageable.getOffset());
+		query.setFirstResult(pageable.getPageNumber());
 		query.setMaxResults(pageable.getPageSize());
 		query.unwrap(SQLQuery.class)
 				.setResultTransformer(new MyResultTransformer(clazz));
