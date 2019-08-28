@@ -28,6 +28,12 @@ public class SystemController extends BaseController {
         this.userService = userService;
     }
 
+    @GetMapping("/testEntityManage")
+    @ApiOperation(value = "用户退出登录")
+    public ResultObject<?> testEntityManage(){
+        userService.testEntityManage();
+        return ResultObject.ok("执行完毕！");
+    }
 	@GetMapping("/getCurrentTime")
     @ApiOperation(value = "获取系统时间", notes = "获取系统毫秒数")
     public ResultObject<?> getCurrentTime() {

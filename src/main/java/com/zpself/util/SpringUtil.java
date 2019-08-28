@@ -1,13 +1,19 @@
 package com.zpself.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 /**
+ *
  * SpringUtil 用来取SpringContext
+ * @author zp
  */
+@Slf4j
+@Component
 public class SpringUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext = null;

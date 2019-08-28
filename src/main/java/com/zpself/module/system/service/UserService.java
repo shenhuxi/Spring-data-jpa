@@ -15,5 +15,6 @@ public interface UserService extends BaseService<User,Long> {
 
 	User findByUserName(String teacherName);
 
-    
+
+    void testEntityManage();
 }
